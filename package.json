@@ -1,0 +1,32 @@
+{
+  "name": "ts-api-service",
+  "version": "1.0.0",
+  "description": "API service for interactions with REST server in react way, powered by Typescript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artursmirnov/ts-api-service.git"
+  },
+  "keywords": [
+    "typescript",
+    "data",
+    "fetch",
+    "ajax"
+  ],
+  "author": "Artur Smirnov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/artursmirnov/ts-api-service/issues"
+  },
+  "homepage": "https://github.com/artursmirnov/ts-api-service#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
