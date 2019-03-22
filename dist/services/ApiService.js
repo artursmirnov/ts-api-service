@@ -10,91 +10,61 @@ import { Method } from '../enums/Method';
 import { ApiException } from '../exceptions/ApiException';
 export class ApiService {
     constructor(config) {
-        this.baseUrl = '/';
-        this.namespace = '';
-        this.ApiExceptionClass = ApiException;
-        this.headers = {
-            'Content-Type': 'application/json'
+        this.config = {
+            baseUrl: '/',
+            namespace: '',
+            ApiExceptionClass: ApiException,
+            headers: {
+                'Content-Type': 'application/json'
+            }
         };
-        if (config)
-            this.configure(config);
+        this.configure(config);
     }
     listRecords(modelClass, options = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            const uri = this.buildResourceUri(modelClass);
-            const response = yield this.request(uri, Method.GET, options);
+            const adapter = this.adapterFor(modelClass);
+            const path = adapter.buildPath(modelClass);
+            const response = yield adapter.request(path, Method.GET, options);
             return yield response.json();
         });
     }
     findRecord(modelClass, id, options = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            const uri = this.buildResourceUri(modelClass, id);
-            const response = yield this.request(uri, Method.GET, options);
+            const adapter = this.adapterFor(modelClass);
+            const path = adapter.buildPath(modelClass, id);
+            const response = yield adapter.request(path, Method.GET, options);
             return yield response.json();
         });
     }
     createRecord(modelClass, data, options = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            const uri = this.buildResourceUri(modelClass);
-            const requestOptions = Object.assign({}, options, { body: JSON.stringify(data) });
-            const response = yield this.request(uri, Method.POST, requestOptions);
+            const adapter = this.adapterFor(modelClass);
+            const path = adapter.buildPath(modelClass);
+            const requestOptions = Object.assign({}, options, { body: JSON.stringify(data || {}) });
+            const response = yield adapter.request(path, Method.POST, requestOptions);
             return yield response.json();
         });
     }
     updateRecord(modelClass, id, data, options = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            const uri = this.buildResourceUri(modelClass, id);
+            const adapter = this.adapterFor(modelClass);
+            const path = adapter.buildPath(modelClass, id);
             const requestOptions = Object.assign({}, options, { body: JSON.stringify(data) });
-            const response = yield this.request(uri, Method.PUT, requestOptions);
+            const response = yield adapter.request(path, Method.PUT, requestOptions);
             return yield response.json();
         });
     }
     deleteRecord(modelClass, id, options = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            const uri = this.buildResourceUri(modelClass, id);
-            yield this.request(uri, Method.DELETE);
+            const adapter = this.adapterFor(modelClass);
+            const path = adapter.buildPath(modelClass, id);
+            yield adapter.request(path, Method.DELETE, options);
         });
     }
-    request(uri, method = Method.GET, options = {}) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const requestOptions = this.buildRequestOptions(method, options);
-            const url = this.buildRequestUrl(uri);
-            const response = yield fetch(url, requestOptions);
-            if (!response.ok) {
-                const error = yield response.json();
-                throw new this.ApiExceptionClass(error);
-            }
-            return response;
-        });
+    adapterFor(modelClass) {
+        return modelClass.getAdapter(this.config);
     }
     configure(config) {
-        this.baseUrl = config.baseUrl || this.baseUrl;
-        this.namespace = config.namespace || this.namespace;
-        this.ApiExceptionClass = config.ApiExceptionClass || this.ApiExceptionClass;
-        this.headers = config.headers || this.headers;
-    }
-    getPathForType(modelClass) {
-        return modelClass.getPath();
-    }
-    buildRequestOptions(method, options = {}) {
-        const headers = this.buildHeaders(options.headers);
-        return Object.assign({}, options, { method, headers });
-    }
-    buildHeaders(headers = {}) {
-        return Object.assign({}, this.headers, headers);
-    }
-    buildResourceUri(modelClass, modelKey) {
-        const path = this.getPathForType(modelClass);
-        const uriParts = [path];
-        if (modelKey)
-            uriParts.push(modelKey.toString());
-        return uriParts.join('/');
-    }
-    buildRequestUrl(uri) {
-        const { baseUrl, namespace } = this;
-        if (!baseUrl && !namespace)
-            return `/${uri}`;
-        else
-            return [baseUrl, namespace, uri].filter(part => !!part).join('/');
+        this.config = Object.assign({}, config, this.config);
     }
 }

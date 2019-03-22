@@ -1,8 +1,5 @@
-export interface IException {
-    message: string;
-}
-export declare class Exception {
+export declare class Exception extends Error {
     message: string;
     protected defaultMessage: string;
-    constructor(exception: IException);
+    constructor(message: string);
 }

@@ -1,9 +1,10 @@
-export interface IApiModelCtor<T extends ApiModel> {
+import { Adapter, IAdapterConfig } from '../adapters/Adapter';
+export interface IApiModelClass<T extends ApiModel> {
     new (): T;
     getPath(): string;
+    getAdapter(config?: IAdapterConfig): Adapter;
 }
 export declare abstract class ApiModel {
-    static getPath<T>(this: {
-        new (): T;
-    }): string;
+    static getPath(): string;
+    static getAdapter(config?: IAdapterConfig): Adapter;
 }

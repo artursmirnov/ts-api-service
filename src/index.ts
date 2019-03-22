@@ -10,6 +10,15 @@ export {
 } from './models/ApiModel';
 
 export {
+  RestAdapter
+} from './adapters/RestAdapter';
+
+export {
+  Adapter,
+  IAdapterConfig
+} from './adapters/Adapter';
+
+export {
   ApiService,
   IApiServiceConfig,
   TModelKey

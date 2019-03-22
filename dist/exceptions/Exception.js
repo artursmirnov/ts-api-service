@@ -1,6 +1,7 @@
-export class Exception {
-    constructor(exception) {
+export class Exception extends Error {
+    constructor(message) {
+        super(...arguments);
         this.defaultMessage = 'Unknown error';
-        this.message = exception.message || this.defaultMessage;
+        this.message = message || this.defaultMessage;
     }
 }

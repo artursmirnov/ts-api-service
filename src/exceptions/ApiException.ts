@@ -1,8 +1,13 @@
-import { IException, Exception } from './Exception';
+import { Exception } from './Exception';
 
-export interface IApiException extends IException {
+export interface IApiException {
+  message: string;
 }
 
 export class ApiException extends Exception {
   protected defaultMessage: string = 'Unknown API error';
+
+  constructor(exception: IApiException) {
+    super(exception.message);
+  }
 }

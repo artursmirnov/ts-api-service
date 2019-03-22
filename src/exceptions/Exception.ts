@@ -1,14 +1,11 @@
-export interface IException {
-  message: string;
-}
-
-export class Exception {
+export class Exception extends Error {
 
   public message: string;
 
   protected defaultMessage: string = 'Unknown error';
 
-  constructor(exception: IException) {
-    this.message = exception.message || this.defaultMessage;
+  constructor(message: string) {
+    super(...arguments);
+    this.message = message || this.defaultMessage;
   }
 }
