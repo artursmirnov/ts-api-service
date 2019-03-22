@@ -1,12 +1,12 @@
 import { Method } from '../enums/Method';
-import { ApiError } from './ApiError';
-import { ApiModel, IApiModelCtor } from './ApiModel';
+import { ApiException } from '../exceptions/ApiException';
+import { ApiModel, IApiModelCtor } from '../models/ApiModel';
 
 export class ApiService {
 
   protected baseUrl: string = '/';
   protected namespace: string = '';
-  protected ApiExceptionClass: AnyErrorClass = ApiError;
+  protected ApiExceptionClass: AnyErrorClass = ApiException;
 
   protected headers: HeadersInit = {
     'Content-Type': 'application/json'

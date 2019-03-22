@@ -1,4 +1,5 @@
 import 'whatwg-fetch';
-export { ApiError } from './classes/ApiError';
-export { ApiService } from './classes/ApiService';
+export { ApiException } from './exceptions/ApiException';
+export { ApiModel } from './models/ApiModel';
+export { ApiService } from './services/ApiService';
 export { Method } from './enums/Method';

@@ -1,5 +1,20 @@
 import 'whatwg-fetch';
 
-export { ApiError, IApiError } from './classes/ApiError';
-export { ApiService } from './classes/ApiService';
-export { Method } from './enums/Method';
+export {
+  ApiException,
+  IApiException
+} from './exceptions/ApiException';
+
+export {
+  ApiModel
+} from './models/ApiModel';
+
+export {
+  ApiService,
+  IApiServiceConfig,
+  TModelKey
+} from './services/ApiService';
+
+export {
+  Method
+} from './enums/Method';
