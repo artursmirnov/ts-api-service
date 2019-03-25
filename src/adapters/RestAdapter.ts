@@ -2,7 +2,7 @@ import { Adapter } from './Adapter';
 import { Method } from '../enums/Method';
 import { TModelKey } from '../services/ApiService';
 import { ApiModel, IApiModelClass } from '../models/ApiModel';
-import { ApiException } from '../exceptions/ApiException';
+import { ApiException, IApiException } from '../exceptions/ApiException';
 
 export class RestAdapter extends Adapter {
 
@@ -14,8 +14,8 @@ export class RestAdapter extends Adapter {
 
     if (!response.ok) {
       const error = await response.json();
-      const ExceptionClass = this.config.ApiExceptionClass || ApiException;
-      throw new ExceptionClass(error);
+      const { ApiExceptionClass = ApiException } = this.config;
+      throw instantiateError(ApiExceptionClass, error);
     }
 
     return response;
@@ -41,4 +41,8 @@ export class RestAdapter extends Adapter {
     return modelClass.getPath();
   }
 
+}
+
+function instantiateError<T>(errorClass: { new(error: IApiException): T }, error: IApiException): T {
+  return new errorClass(error);
 }

@@ -16,7 +16,6 @@ export declare abstract class Adapter {
     abstract request(path: string, method: Method, options: RequestInit): Promise<Response>;
     abstract buildPath<T extends ApiModel>(modelClass: IApiModelClass<T>, modelKey?: TModelKey): string;
 }
-declare type AnyErrorClass = {
+export declare type AnyErrorClass = {
     new (error: any, ...args: any[]): any;
 };
-export {};

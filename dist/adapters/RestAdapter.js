@@ -17,8 +17,8 @@ export class RestAdapter extends Adapter {
             const response = yield fetch(url, requestOptions);
             if (!response.ok) {
                 const error = yield response.json();
-                const ExceptionClass = this.config.ApiExceptionClass || ApiException;
-                throw new ExceptionClass(error);
+                const { ApiExceptionClass = ApiException } = this.config;
+                throw instantiateError(ApiExceptionClass, error);
             }
             return response;
         });
@@ -40,4 +40,7 @@ export class RestAdapter extends Adapter {
     getPathForType(modelClass) {
         return modelClass.getPath();
     }
+}
+function instantiateError(errorClass, error) {
+    return new errorClass(error);
 }

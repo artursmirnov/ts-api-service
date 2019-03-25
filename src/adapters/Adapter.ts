@@ -41,4 +41,4 @@ export abstract class Adapter {
 
 }
 
-type AnyErrorClass = { new(error: any, ...args: any[]): any; }
+export type AnyErrorClass = { new(error: any, ...args: any[]): any; }
