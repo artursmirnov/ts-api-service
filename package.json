@@ -1,5 +1,5 @@
 {
-  "name": "ts-api-service",
+  "name": "@redux-app/api-service",
   "version": "1.0.0",
   "description": "API service for interactions with REST server in react way, powered by Typescript",
   "main": "dist/index.js",
